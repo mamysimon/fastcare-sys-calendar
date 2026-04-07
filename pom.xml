@@ -7,7 +7,7 @@
 		<version>1.0.0</version>
 	</parent>
 	<groupId>43c948fb-024c-4176-a702-879840dedb82</groupId>
-	<artifactId>sys-calendar</artifactId>
+	<artifactId>starter-project</artifactId>
 	<version>1.0.0</version>
 	<packaging>mule-application</packaging>
 
@@ -41,9 +41,15 @@
 		<dependency>
 			<groupId>43c948fb-024c-4176-a702-879840dedb82</groupId>
 			<artifactId>calendar-system-api</artifactId>
-			<version>1.0.4</version>
+			<version>1.0.7</version>
 			<classifier>raml</classifier>
 			<type>zip</type>
+		</dependency>
+		<dependency>
+			<groupId>com.mulesoft.connectors</groupId>
+			<artifactId>mule4-google-calendar-connector</artifactId>
+			<version>1.2.3</version>
+			<classifier>mule-plugin</classifier>
 		</dependency>
 	</dependencies>
 

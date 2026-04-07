@@ -7,5 +7,12 @@ https:
   port: "8081"
 ################################
 
-system-name:
-  password: "${secure::system-name.password}"
+google:
+  auth:
+    host: "oauth2.googleapis.com"
+    port: "443"
+    path: "/token"
+  calendars:
+    host: "www.googleapis.com"
+    port: "443"
+    path: "/calendar/v3/calendars/primary/events"

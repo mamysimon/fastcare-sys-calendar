@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:google-calendar="http://www.mulesoft.org/schema/mule/google-calendar"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http"
+	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
+http://www.mulesoft.org/schema/mule/google-calendar http://www.mulesoft.org/schema/mule/google-calendar/current/mule-google-calendar.xsd
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+	<sub-flow name="sub-get-calendar" doc:id="0b498289-6736-493d-a2fb-18ca64bfe46e" >
+		<http:request doc:name="Generate [accessToken]" doc:id="aff2cfdb-c4cb-4a17-bdbc-faeb8adfe8c6" config-ref="HTTP_Request_Auth_config" method="POST" path="${google.auth.path}" target="accessToken" targetValue="#[payload.access_token]">
+			<http:body ><![CDATA[#[%dw 2.0
+output application/x-www-form-urlencoded
+---
+{
+    "client_id": p('secure::google.client-id'),
+    "client_secret": p('secure::google.client-secret'),
+    "refresh_token": vars.refreshToken,
+    "grant_type": "refresh_token"
+}]]]></http:body>
+		</http:request>
+		<logger level="DEBUG" doc:name="Debug generate token" doc:id="3796be5a-9daf-44cb-b17a-ad5662502ec9" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;    step: "Debug generate token",&#10;    data: {&#10;        business: {},&#10;        technical: {&#10;            refreshToken: vars.refreshToken,&#10;            accessToken: vars.accessToken&#10;        }&#10;    }&#10;}]' category="${app.name}"/>
+		<http:request doc:name="Retrieve [appointments]" doc:id="7afcf23d-e390-4614-a247-12dc8902f2c7" config-ref="HTTP_Request_Calendars_config" path="${google.calendars.path}" target="appointments">
+			<http:headers ><![CDATA[#[output application/java
+---
+{
+	"Authorization" : "Bearer " ++ vars.accessToken
+}]]]></http:headers>
+			<http:query-params ><![CDATA[#[%dw 2.0
+import * from modules::FilterDate
+output application/java
+---
+{
+    "timeMin": timeMin(vars.exactDate, vars.fromDate),
+    ("timeMax": timeMax(vars.exactDate)) if (vars.exactDate != null),
+                  
+    "singleEvents": true,
+    "orderBy": "startTime"
+}]]]></http:query-params>
+		</http:request>
+		<logger level="INFO" doc:name="After retrieve appointments" doc:id="ffb958fa-fb54-4f51-ab0c-e9e4037d611e" category="${app.name}" message='#[%dw 2.0&#10;output application/json&#10;---&#10;{&#10;    step: "After retrieve appointments",&#10;    data: {&#10;        business: {&#10;        	countAppointments: sizeOf(vars.appointments)&#10;        },&#10;        technical: {}&#10;    }&#10;}]'/>
+		<logger level="DEBUG" doc:name="Debug retrieve appointments" doc:id="0ba9e8d1-8cec-4228-a125-59a747ac8095" category="${app.name}" message='#[%dw 2.0&#10;output application/json indent=false&#10;---&#10;{&#10;    step: "Debug retrieve appointments",&#10;    data: {&#10;        business: {},&#10;        technical: {&#10;        	firstAppointment: vars.appointments[0]&#10;        }&#10;    }&#10;}]'/>
+		<ee:transform doc:name="Map to [calendarDataModel]" doc:id="a28fb387-317c-4e32-a420-7ab887e84bda" >
+			<ee:message >
+			</ee:message>
+			<ee:variables >
+				<ee:set-variable resource="modules/CalendarDataModel.dwl" variableName="calendarDataModel" />
+			</ee:variables>
+		</ee:transform>
+		<logger level="DEBUG" doc:name="Debug map to Calendar Data Model" doc:id="04f0040d-2a4b-489f-a3f2-255ed2cf6733" message='#[%dw 2.0&#10;output application/json indent=false&#10;---&#10;{&#10;    step: "Debug map to Calendar Data Model",&#10;    data: {&#10;        business: {&#10;        	patientId: vars.patientId&#10;        },&#10;        technical: {&#10;        	firstCDM: vars.calendarDataModel[0]&#10;        }&#10;    }&#10;}]' category="${app.name}" />
+		<set-payload value="#[vars.calendarDataModel]" doc:name="Set CalendarDataModel" doc:id="3841c339-0ffa-4b49-a586-159977148b21" />
+	</sub-flow>
+</mule>

@@ -1,2 +1,3 @@
-system-name:
-  password: "![ENCRYPTED_KEY]"
+google:
+  client-id: "![ad8o4gIvfWeOjoc07Cv/x+SUZYsMKU2+MJnpTh63spIxRQBdBRB0mDiqPBNPxAzhhWuz9NKEI44B9pG4CbfTuyMAdhmkQO1eRLR9a1r7MQ8=]"
+  client-secret: "![+SyyNddQt/6/9yMZVWZTkagiE/vLNlwiiy1sHvRw5q7DWi7EWsn3i0Ks6CtQhAXD]"

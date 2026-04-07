@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd">
+	<flow name="get:\calendars\patients\(id):starter-project-api-config" doc:id="5a2c9dd8-630e-4900-9026-a70db0017a9d" >
+		<set-variable value="#[attributes.uriParams.id]" doc:name="[patientId]" doc:id="a3167c9e-ba32-4b67-b142-13dbd8483524" variableName="patientId" />
+		<set-variable value="#[attributes.headers.refresh_token]" doc:name="[refreshToken]" doc:id="f4113b28-44f5-4b4a-a751-b0f4b9bccdfa" variableName="refreshToken" />
+		<set-variable value="#[%dw 2.0&#10;output application/json&#10;---&#10;attributes.queryParams.fromDate as Date default null]" doc:name="[fromDate]" doc:id="764bd461-1cb2-4437-bc3a-9dcd0e4e820a" variableName="fromDate" />
+		<set-variable value="#[%dw 2.0&#10;output application/json&#10;---&#10;attributes.queryParams.exactDate as Date default null]" doc:name="[exactDate]" doc:id="e97059b3-6cd9-435e-98a8-ec555243c6ce" variableName="exactDate" />
+		<flow-ref doc:name="sub-get-calendar" doc:id="1b71616b-41fd-4496-8d28-e28714b9ddd1" name="sub-get-calendar" />
+	</flow>
+</mule>

@@ -8,6 +8,7 @@ http://www.mulesoft.org/schema/mule/google-calendar http://www.mulesoft.org/sche
 http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
 	<sub-flow name="sub-get-calendar" doc:id="0b498289-6736-493d-a2fb-18ca64bfe46e" >
 		<http:request doc:name="Generate [accessToken]" doc:id="aff2cfdb-c4cb-4a17-bdbc-faeb8adfe8c6" config-ref="HTTP_Request_Auth_config" method="POST" path="${google.auth.path}" target="accessToken" targetValue="#[payload.access_token]">
+			<error-mapping sourceType="HTTP:BAD_REQUEST" targetType="TOKEN:BAD_REQUEST" />
 			<http:body ><![CDATA[#[%dw 2.0
 output application/x-www-form-urlencoded
 ---

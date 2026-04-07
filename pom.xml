@@ -41,7 +41,7 @@
 		<dependency>
 			<groupId>43c948fb-024c-4176-a702-879840dedb82</groupId>
 			<artifactId>calendar-system-api</artifactId>
-			<version>1.0.7</version>
+			<version>1.0.8</version>
 			<classifier>raml</classifier>
 			<type>zip</type>
 		</dependency>

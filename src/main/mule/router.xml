@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <mule xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:apikit="http://www.mulesoft.org/schema/mule/mule-apikit" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd http://www.mulesoft.org/schema/mule/mule-apikit http://www.mulesoft.org/schema/mule/mule-apikit/current/mule-apikit.xsd http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
-    <flow name="starter-project-api-main" doc:id="25218e5d-3113-4813-a30f-61d01753942d">
-        <http:listener doc:name="/api/v1/*" doc:id="82a4027a-cb00-48f0-b6e1-c65fe2893f70" config-ref="starter-project-api-httpListenerConfig" path="/*">
+    <flow name="sys-calendar-api-main" doc:id="25218e5d-3113-4813-a30f-61d01753942d">
+        <http:listener doc:name="/api/v1/*" doc:id="82a4027a-cb00-48f0-b6e1-c65fe2893f70" config-ref="sys-calendar-api-httpListenerConfig" path="/*">
             <http:response statusCode="#[vars.httpStatus default 200]">
                 <http:headers><![CDATA[#[vars.outboundHeaders default {}]]]></http:headers>
             </http:response>
@@ -21,7 +21,7 @@
                 </ee:transform>
             </when>
             <otherwise>
-                <apikit:router doc:name="APIkit Router" doc:id="657fbe94-6722-4f7d-931c-0c1ca6155802" config-ref="starter-project-api-config" />
+                <apikit:router doc:name="APIkit Router" doc:id="657fbe94-6722-4f7d-931c-0c1ca6155802" config-ref="sys-calendar-api-config" />
                 <ee:transform doc:name="StandardResponse" doc:id="28b7f243-ffba-4725-9637-b63af32d1b84">
                     <ee:message>
                         <ee:set-payload resource="modules/StandardResponse.dwl" />

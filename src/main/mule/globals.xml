@@ -25,8 +25,8 @@
         <logger level="ERROR" doc:name="ERROR" doc:id="a0833285-47dc-4907-a6cb-34855ee4c7dd" message="#[{&#xA; step: &quot;Global error handler&quot;,&#xA; data: {&#xA;  business: {},&#xA;  technical: payload&#xA; }&#xA;}]" category="${app.name}" />
     </sub-flow>
     <error-handler name="globalsError_Handler" doc:id="4e6c82c1-1022-4ce4-a607-fcd5f16f1aa5">
-        <on-error-propagate enableNotifications="true" logException="true" doc:name="refresh_token invalid" doc:id="caf48a9d-1676-4070-90f5-0037e83c959f" type="TOKEN:BAD_REQUEST">
-			<set-variable value="Invalid refresh_token" doc:name="[description]" doc:id="9f3795ff-423b-4099-90eb-0d90bbc59ab6" variableName="description"/>
+        <on-error-propagate enableNotifications="true" logException="true" doc:name="refresh_token is invalid" doc:id="caf48a9d-1676-4070-90f5-0037e83c959f" type="TOKEN:BAD_REQUEST">
+			<set-variable value="This refresh_token is invalid." doc:name="[description]" doc:id="9f3795ff-423b-4099-90eb-0d90bbc59ab6" variableName="description"/>
 			<set-variable value="400" doc:name="[httpStatus]" doc:id="a7cf9546-fdce-457e-ac00-43491bf349e8" variableName="httpStatus"/>
 			<flow-ref doc:name="genericError" doc:id="fbd47efc-711d-4dbe-8f51-2ea757bdf377" name="genericError"/>
 		</on-error-propagate>

@@ -25,12 +25,17 @@
         <logger level="ERROR" doc:name="ERROR" doc:id="a0833285-47dc-4907-a6cb-34855ee4c7dd" message="#[{&#xA; step: &quot;Global error handler&quot;,&#xA; data: {&#xA;  business: {},&#xA;  technical: payload&#xA; }&#xA;}]" category="${app.name}" />
     </sub-flow>
     <error-handler name="globalsError_Handler" doc:id="4e6c82c1-1022-4ce4-a607-fcd5f16f1aa5">
-        <on-error-propagate enableNotifications="true" logException="true" doc:name="refresh_token is invalid" doc:id="caf48a9d-1676-4070-90f5-0037e83c959f" type="TOKEN:BAD_REQUEST">
-			<set-variable value="This refresh_token is invalid." doc:name="[description]" doc:id="9f3795ff-423b-4099-90eb-0d90bbc59ab6" variableName="description"/>
-			<set-variable value="400" doc:name="[httpStatus]" doc:id="a7cf9546-fdce-457e-ac00-43491bf349e8" variableName="httpStatus"/>
-			<flow-ref doc:name="genericError" doc:id="fbd47efc-711d-4dbe-8f51-2ea757bdf377" name="genericError"/>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="refresh_token is invalid" doc:id="caf48a9d-1676-4070-90f5-0037e83c959f" type="TOKEN:BAD_REQUEST">
+			<set-variable value="This refresh_token is invalid." doc:name="[description]" doc:id="9f3795ff-423b-4099-90eb-0d90bbc59ab6" variableName="description" />
+			<set-variable value="400" doc:name="[httpStatus]" doc:id="a7cf9546-fdce-457e-ac00-43491bf349e8" variableName="httpStatus" />
+			<flow-ref doc:name="genericError" doc:id="fbd47efc-711d-4dbe-8f51-2ea757bdf377" name="genericError" />
 		</on-error-propagate>
-        <on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="1647bce7-4967-4420-bb1b-91170148787d">
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="cannot enter exactDate and fromDate" doc:id="fffd810b-eb3c-4254-9c52-ec83eeb02eec" type="CALENDAR:BAD_REQUEST">
+			<set-variable value="You cannot enter both exactDate and fromDate at the same time." doc:name="[description]" doc:id="e60f89f9-41af-4c55-9ab8-ac54d0da1ca7" variableName="description" />
+			<set-variable value="400" doc:name="[httpStatus]" doc:id="06155208-d291-46a9-870c-03f1cac8143e" variableName="httpStatus" />
+			<flow-ref doc:name="genericError" doc:id="4fdf6be0-24cc-43ce-bf55-2c775ac3324c" name="genericError" />
+		</on-error-propagate>
+		<on-error-propagate enableNotifications="true" logException="true" doc:name="On Error Propagate" doc:id="1647bce7-4967-4420-bb1b-91170148787d">
             <flow-ref doc:name="genericError" doc:id="71506bee-a65b-44f6-9761-ed1c88dbc8cd" name="genericError" />
         </on-error-propagate>
     </error-handler>

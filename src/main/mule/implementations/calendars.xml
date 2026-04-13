@@ -1,12 +1,16 @@
 <?xml version="1.0" encoding="UTF-8"?>
 
-<mule xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core" xmlns:google-calendar="http://www.mulesoft.org/schema/mule/google-calendar"
-	xmlns:http="http://www.mulesoft.org/schema/mule/http"
-	xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
+<mule xmlns:validation="http://www.mulesoft.org/schema/mule/validation" xmlns:ee="http://www.mulesoft.org/schema/mule/ee/core"
+	xmlns:google-calendar="http://www.mulesoft.org/schema/mule/google-calendar"
+	xmlns:http="http://www.mulesoft.org/schema/mule/http" xmlns="http://www.mulesoft.org/schema/mule/core" xmlns:doc="http://www.mulesoft.org/schema/mule/documentation" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.mulesoft.org/schema/mule/core http://www.mulesoft.org/schema/mule/core/current/mule.xsd
 http://www.mulesoft.org/schema/mule/http http://www.mulesoft.org/schema/mule/http/current/mule-http.xsd
 http://www.mulesoft.org/schema/mule/google-calendar http://www.mulesoft.org/schema/mule/google-calendar/current/mule-google-calendar.xsd
-http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd">
+http://www.mulesoft.org/schema/mule/ee/core http://www.mulesoft.org/schema/mule/ee/core/current/mule-ee.xsd
+http://www.mulesoft.org/schema/mule/validation http://www.mulesoft.org/schema/mule/validation/current/mule-validation.xsd">
 	<sub-flow name="sub-get-calendar" doc:id="0b498289-6736-493d-a2fb-18ca64bfe46e" >
+		<validation:is-false doc:name="exactDate and fromDate are not null" doc:id="abe56295-adc3-4ca4-ab9a-a166c310c9c2" expression='#[ (vars.exactDate != null) and (vars.fromDate != null) ]'>
+			<error-mapping sourceType="VALIDATION:INVALID_BOOLEAN" targetType="CALENDAR:BAD_REQUEST" />
+		</validation:is-false>
 		<http:request doc:name="Generate [accessToken]" doc:id="aff2cfdb-c4cb-4a17-bdbc-faeb8adfe8c6" config-ref="HTTP_Request_Auth_config" method="POST" path="${google.auth.path}" target="accessToken" targetValue="#[payload.access_token]">
 			<error-mapping sourceType="HTTP:BAD_REQUEST" targetType="TOKEN:BAD_REQUEST" />
 			<http:body ><![CDATA[#[%dw 2.0
